@@ -1,0 +1,20 @@
+﻿DATA_BLOCK "Data_block_1"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+NON_RETAIN
+   VAR 
+      Richiesta_Lv1 : Bool;
+      Convalida_Lv1 : Bool;
+      Disattiva : Bool;
+      Password_1 : Array[0..3] of UInt;
+   END_VAR
+
+
+BEGIN
+   Password_1[0] := 0;
+   Password_1[1] := 5;
+   Password_1[2] := 8;
+   Password_1[3] := 5;
+
+END_DATA_BLOCK
+

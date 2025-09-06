@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document>
+  <Engineering version="V18" />
+  <SW.Blocks.OB ID="0">
+    <AttributeList>
+      <Interface><Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v5">
+  <Section Name="Input">
+    <Member Name="Initial_Call" Datatype="Bool" Informative="true">
+      <Comment>
+        <MultiLanguageText Lang="en-US">Initial call of this OB</MultiLanguageText>
+      </Comment>
+    </Member>
+    <Member Name="Remanence" Datatype="Bool" Informative="true">
+      <Comment>
+        <MultiLanguageText Lang="en-US">=True, if remanent data are available</MultiLanguageText>
+      </Comment>
+    </Member>
+  </Section>
+  <Section Name="Temp" />
+  <Section Name="Constant" />
+</Sections></Interface>
+      <MemoryLayout>Optimized</MemoryLayout>
+      <Name>Main</Name>
+      <Namespace />
+      <Number>1</Number>
+      <ProgrammingLanguage>LAD</ProgrammingLanguage>
+      <SecondaryType>ProgramCycle</SecondaryType>
+      <SetENOAutomatically>false</SetENOAutomatically>
+    </AttributeList>
+    <ObjectList>
+      <MultilingualText ID="1" CompositionName="Comment">
+        <ObjectList>
+          <MultilingualTextItem ID="2" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+      <SW.Blocks.CompileUnit ID="3" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v4">
+  <Parts>
+    <Access Scope="GlobalVariable" UId="21">
+      <Symbol>
+        <Component Name="Data_block_1" />
+        <Component Name="Richiesta_Lv1" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="22">
+      <Symbol>
+        <Component Name="Data_block_1" />
+        <Component Name="Disattiva" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="23">
+      <Symbol>
+        <Component Name="Data_block_1" />
+        <Component Name="Password_1" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="24">
+      <Symbol>
+        <Component Name="Data_block_1" />
+        <Component Name="Convalida_Lv1" />
+      </Symbol>
+    </Access>
+    <Call UId="25">
+      <CallInfo Name="Logica" BlockType="FC">
+        <Parameter Name="Richiesta_Lv_1" Section="Input" Type="Bool" />
+        <Parameter Name="Disattiva_Abilitazioni" Section="Input" Type="Bool" />
+        <Parameter Name="Password_1" Section="Input" Type="Array[0..3] of UInt" />
+        <Parameter Name="Livello_1" Section="Output" Type="Bool" />
+      </CallInfo>
+    </Call>
+  </Parts>
+  <Wires>
+    <Wire UId="26">
+      <Powerrail />
+      <NameCon UId="25" Name="en" />
+    </Wire>
+    <Wire UId="27">
+      <IdentCon UId="21" />
+      <NameCon UId="25" Name="Richiesta_Lv_1" />
+    </Wire>
+    <Wire UId="28">
+      <IdentCon UId="22" />
+      <NameCon UId="25" Name="Disattiva_Abilitazioni" />
+    </Wire>
+    <Wire UId="29">
+      <IdentCon UId="23" />
+      <NameCon UId="25" Name="Password_1" />
+    </Wire>
+    <Wire UId="30">
+      <NameCon UId="25" Name="Livello_1" />
+      <IdentCon UId="24" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="4" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="5" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="6" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="7" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <MultilingualText ID="8" CompositionName="Title">
+        <ObjectList>
+          <MultilingualTextItem ID="9" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text>"Main Program Sweep (Cycle)"</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+    </ObjectList>
+  </SW.Blocks.OB>
+</Document>

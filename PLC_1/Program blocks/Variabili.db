@@ -1,0 +1,23 @@
+﻿DATA_BLOCK "Variabili"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+NON_RETAIN
+   VAR 
+      Array_Input : Array[0..3] of UInt;
+      Conteggio : UInt;
+      Risultato : UInt;
+      Array_Memoria : Array[0..11] of Bool;
+      Array_Fronti : Array[0..11] of Bool;
+      Visibilità : Bool;
+      Numero : UInt;
+      Fronte_Richiesta_1 : Bool;
+      Livello_1 : Bool;
+      Richiesta_Lv1 : Bool;
+      Fronte_Disabilità : Bool;
+   END_VAR
+
+
+BEGIN
+
+END_DATA_BLOCK
+
