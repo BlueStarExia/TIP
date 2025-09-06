@@ -212,16 +212,16 @@ BEGIN
 	        IF #Conteggio < #Lunghezza_Pw THEN  //verifico se le volte in cui i numeri sono stati premuti è minore di #lunghezza_pw
 	            
 	            //vado a registrare gli input dei pulsanti numerici
-	            #R_0();
-	            #R_1();
-	            #R_2();
-	            #R_3();
-	            #R_4();
-	            #R_5();
-	            #R_6();
-	            #R_7();
-	            #R_8();
-	            #R_9();
+	            #R_0(CLK:= #Array_Memoria[0]);
+	            #R_1(CLK:= #Array_Memoria[1]);
+	            #R_2(CLK:= #Array_Memoria[2]);
+	            #R_3(CLK:= #Array_Memoria[3]);
+	            #R_4(CLK := #Array_Memoria[4]);
+	            #R_5(CLK:= #Array_Memoria[5]);
+	            #R_6(CLK:= #Array_Memoria[6]);
+	            #R_7(CLK:= #Array_Memoria[7]);
+	            #R_8(CLK:= #Array_Memoria[8]);
+	            #R_9(CLK:= #Array_Memoria[9]);
 	            
 	            IF #R_0.Q THEN
 	                #Array_Linee[#Numero] := FALSE;
@@ -265,19 +265,19 @@ BEGIN
 	                #Conteggio := #Conteggio + 1;
 	            END_IF;
 	            
-	            IF R_ THEN
+	            IF #R_7.Q THEN
 	                #Array_Linee[#Numero] := FALSE;
 	                #Array_Input[#Conteggio] := 7;
 	                #Conteggio := #Conteggio + 1;
 	            END_IF;
 	            
-	            IF  THEN
+	            IF #R_8.Q THEN
 	                #Array_Linee[#Numero] := FALSE;
 	                #Array_Input[#Conteggio] := 8;
 	                #Conteggio := #Conteggio + 1;
 	            END_IF;
 	            
-	            IF  THEN
+	            IF #R_9.Q THEN
 	                #Array_Linee[#Numero] := FALSE;
 	                #Array_Input[#Conteggio] := 9;
 	                #Conteggio := #Conteggio + 1;
