@@ -4,17 +4,49 @@ VERSION : 0.1
 NON_RETAIN
    VAR 
       Richiesta_Lv1 : Bool;
+      RIchiesta_Lv2 : Bool;
+      Richiesta_Lv3 : Bool;
       Convalida_Lv1 : Bool;
+      Convalida_Lv2 : Bool;
+      Convalida_Lv3 : Bool;
       Disattiva : Bool;
-      Password_1 : Array[0..3] of UInt;
+      Fronte_Disattiva : Bool;
+      Selezione_modalita : Int;
+      Password_1 : Array[0..11] of UInt;
+      Password_2 : Array[0..11] of UInt;
+      Password_3 : Array[0..11] of UInt;
+      Lunghezza_Pw : Int;
    END_VAR
 
 
 BEGIN
-   Password_1[0] := 0;
-   Password_1[1] := 5;
-   Password_1[2] := 8;
-   Password_1[3] := 5;
+   Password_1[0] := 1;
+   Password_1[1] := 2;
+   Password_1[2] := 1;
+   Password_1[3] := 1;
+   Password_1[4] := 2;
+   Password_1[5] := 0;
+   Password_1[6] := 2;
+   Password_1[7] := 3;
+   Password_2[0] := 0;
+   Password_2[1] := 4;
+   Password_2[2] := 0;
+   Password_2[3] := 9;
+   Password_2[4] := 1;
+   Password_2[5] := 9;
+   Password_2[6] := 9;
+   Password_2[7] := 7;
+   Password_3[0] := 1;
+   Password_3[1] := 2;
+   Password_3[2] := 3;
+   Password_3[3] := 4;
+   Password_3[4] := 5;
+   Password_3[5] := 6;
+   Password_3[6] := 7;
+   Password_3[7] := 8;
+   Password_3[8] := 0;
+   Password_3[9] := 0;
+   Lunghezza_Pw := 8;
 
 END_DATA_BLOCK
 

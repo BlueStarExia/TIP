@@ -45,56 +45,144 @@
     <Access Scope="GlobalVariable" UId="21">
       <Symbol>
         <Component Name="Data_block_1" />
-        <Component Name="Richiesta_Lv1" />
+        <Component Name="Selezione_modalita" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="Data_block_1" />
-        <Component Name="Disattiva" />
+        <Component Name="Richiesta_Lv1" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="23">
       <Symbol>
         <Component Name="Data_block_1" />
-        <Component Name="Password_1" />
+        <Component Name="RIchiesta_Lv2" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="24">
       <Symbol>
         <Component Name="Data_block_1" />
+        <Component Name="Richiesta_Lv3" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="25">
+      <Symbol>
+        <Component Name="Data_block_1" />
+        <Component Name="Disattiva" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="26">
+      <Symbol>
+        <Component Name="Data_block_1" />
+        <Component Name="Password_1" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="27">
+      <Symbol>
+        <Component Name="Data_block_1" />
+        <Component Name="Password_2" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="28">
+      <Symbol>
+        <Component Name="Data_block_1" />
+        <Component Name="Password_3" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="29">
+      <Symbol>
+        <Component Name="Data_block_1" />
+        <Component Name="Lunghezza_Pw" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="30">
+      <Symbol>
+        <Component Name="Data_block_1" />
         <Component Name="Convalida_Lv1" />
       </Symbol>
     </Access>
-    <Call UId="25">
+    <Access Scope="GlobalVariable" UId="31">
+      <Symbol>
+        <Component Name="Data_block_1" />
+        <Component Name="Convalida_Lv2" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="32">
+      <Symbol>
+        <Component Name="Data_block_1" />
+        <Component Name="Convalida_Lv3" />
+      </Symbol>
+    </Access>
+    <Call UId="33">
       <CallInfo Name="Logica" BlockType="FC">
+        <Parameter Name="Selezione_Modalità" Section="Input" Type="Int" />
         <Parameter Name="Richiesta_Lv_1" Section="Input" Type="Bool" />
+        <Parameter Name="Richiesta_Lv_2" Section="Input" Type="Bool" />
+        <Parameter Name="Richiesta_Lv_3" Section="Input" Type="Bool" />
         <Parameter Name="Disattiva_Abilitazioni" Section="Input" Type="Bool" />
-        <Parameter Name="Password_1" Section="Input" Type="Array[0..3] of UInt" />
+        <Parameter Name="Password_1" Section="Input" Type="Array[0..11] of UInt" />
+        <Parameter Name="Password_2" Section="Input" Type="Array[0..11] of UInt" />
+        <Parameter Name="Password_3" Section="Input" Type="Array[0..11] of UInt" />
+        <Parameter Name="Lunghezza_Pw" Section="Input" Type="Int" />
         <Parameter Name="Livello_1" Section="Output" Type="Bool" />
+        <Parameter Name="Livello_2" Section="Output" Type="Bool" />
+        <Parameter Name="Livello_3" Section="Output" Type="Bool" />
       </CallInfo>
     </Call>
   </Parts>
   <Wires>
-    <Wire UId="26">
+    <Wire UId="34">
       <Powerrail />
-      <NameCon UId="25" Name="en" />
+      <NameCon UId="33" Name="en" />
     </Wire>
-    <Wire UId="27">
+    <Wire UId="35">
       <IdentCon UId="21" />
-      <NameCon UId="25" Name="Richiesta_Lv_1" />
+      <NameCon UId="33" Name="Selezione_Modalità" />
     </Wire>
-    <Wire UId="28">
+    <Wire UId="36">
       <IdentCon UId="22" />
-      <NameCon UId="25" Name="Disattiva_Abilitazioni" />
+      <NameCon UId="33" Name="Richiesta_Lv_1" />
     </Wire>
-    <Wire UId="29">
+    <Wire UId="37">
       <IdentCon UId="23" />
-      <NameCon UId="25" Name="Password_1" />
+      <NameCon UId="33" Name="Richiesta_Lv_2" />
     </Wire>
-    <Wire UId="30">
-      <NameCon UId="25" Name="Livello_1" />
+    <Wire UId="38">
       <IdentCon UId="24" />
+      <NameCon UId="33" Name="Richiesta_Lv_3" />
+    </Wire>
+    <Wire UId="39">
+      <IdentCon UId="25" />
+      <NameCon UId="33" Name="Disattiva_Abilitazioni" />
+    </Wire>
+    <Wire UId="40">
+      <IdentCon UId="26" />
+      <NameCon UId="33" Name="Password_1" />
+    </Wire>
+    <Wire UId="41">
+      <IdentCon UId="27" />
+      <NameCon UId="33" Name="Password_2" />
+    </Wire>
+    <Wire UId="42">
+      <IdentCon UId="28" />
+      <NameCon UId="33" Name="Password_3" />
+    </Wire>
+    <Wire UId="43">
+      <IdentCon UId="29" />
+      <NameCon UId="33" Name="Lunghezza_Pw" />
+    </Wire>
+    <Wire UId="44">
+      <NameCon UId="33" Name="Livello_1" />
+      <IdentCon UId="30" />
+    </Wire>
+    <Wire UId="45">
+      <NameCon UId="33" Name="Livello_2" />
+      <IdentCon UId="31" />
+    </Wire>
+    <Wire UId="46">
+      <NameCon UId="33" Name="Livello_3" />
+      <IdentCon UId="32" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
