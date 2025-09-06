@@ -1,0 +1,15 @@
+﻿DATA_BLOCK "IEC_Timer_0_DB"
+{InstructionName := 'IEC_TIMER';
+ LibVersion := '1.0';
+ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Simatic
+FAMILY : IEC
+NAME : IEC_TMR
+VERSION : 1.0
+NON_RETAIN
+IEC_TIMER
+
+BEGIN
+
+END_DATA_BLOCK
+

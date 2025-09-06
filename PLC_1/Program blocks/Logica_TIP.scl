@@ -1,0 +1,589 @@
+﻿FUNCTION_BLOCK "Logica_TIP"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+   VAR_INPUT 
+      Selezione_Modalità { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+      Richiesta_Lv_1 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      Richiesta_Lv_2 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      Richiesta_Lv_3 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      Disattiva_Abilitazioni { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+   END_VAR
+
+   VAR_OUTPUT 
+      Livello_1 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      Livello_2 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      Livello_3 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+   END_VAR
+
+   VAR_IN_OUT 
+      password_1 : Array[0..#N_Array] of UInt;
+      password_2 : Array[0..#N_Array] of UInt;
+      password_3 : Array[0..#N_Array] of UInt;
+      Lunghezza_Pw { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+   END_VAR
+
+   VAR 
+      Array_Input : Array[0..#N_Array] of UInt;
+      Array_Linee : Array[0..#N_Array] of Bool;
+      Conteggio : UInt;
+      Array_Memoria : Array[0..#N_Array] of Bool;
+      Array_Fronti : Array[0..#N_Array] of Bool;
+      Array_Fronti_Change : Array[0..#N_Array] of Bool;
+      Visibilità : Bool;
+      Numero : UInt;
+      visibilità_Numeri : UInt;
+      "Visibilità_Numeri_*" : UInt;
+      "Visibilità_Numeri_°" : UInt;
+      Attiva_Change : Bool;
+      Stato_Cambio_Pw : UInt;
+      Richiesta_Lv1 : Bool;
+      Richiesta_Lv2 : Bool;
+      Richiesta_Lv3 : Bool;
+      Fronte_Disabilità : Bool;
+      Variabili_Scritte_Change : String;
+      Change_Status : UInt;
+      "Password_Selected_ Change" : UInt;
+      ET : Time;
+      ET_1 : Time;
+      appoggio_fronte_10 : Bool;
+      n_div : Array[0..10] of Int;
+      Scritte_Errori : String;
+      vis_Scritte_Errori : Bool;
+      R1 {InstructionName := 'R_TRIG'; LibVersion := '1.0'} : R_TRIG;
+      R2 {InstructionName := 'R_TRIG'; LibVersion := '1.0'} : R_TRIG;
+      R3 {InstructionName := 'R_TRIG'; LibVersion := '1.0'} : R_TRIG;
+      R4 {InstructionName := 'R_TRIG'; LibVersion := '1.0'} : R_TRIG;
+      R5 {InstructionName := 'R_TRIG'; LibVersion := '1.0'} : R_TRIG;
+      R_13 {InstructionName := 'R_TRIG'; LibVersion := '1.0'} : R_TRIG;
+      R_11 {InstructionName := 'R_TRIG'; LibVersion := '1.0'} : R_TRIG;
+      R_12 {InstructionName := 'R_TRIG'; LibVersion := '1.0'} : R_TRIG;
+      R_14 {InstructionName := 'R_TRIG'; LibVersion := '1.0'} : R_TRIG;
+      R_0 {InstructionName := 'R_TRIG'; LibVersion := '1.0'} : R_TRIG;
+      R_1 {InstructionName := 'R_TRIG'; LibVersion := '1.0'} : R_TRIG;
+      R_3 {InstructionName := 'R_TRIG'; LibVersion := '1.0'} : R_TRIG;
+      R_4 {InstructionName := 'R_TRIG'; LibVersion := '1.0'} : R_TRIG;
+      R_5 {InstructionName := 'R_TRIG'; LibVersion := '1.0'} : R_TRIG;
+      R_6 {InstructionName := 'R_TRIG'; LibVersion := '1.0'} : R_TRIG;
+      R_2 {InstructionName := 'R_TRIG'; LibVersion := '1.0'} : R_TRIG;
+      R_7 {InstructionName := 'R_TRIG'; LibVersion := '1.0'} : R_TRIG;
+      R_8 {InstructionName := 'R_TRIG'; LibVersion := '1.0'} : R_TRIG;
+      R_9 {InstructionName := 'R_TRIG'; LibVersion := '1.0'} : R_TRIG;
+   END_VAR
+
+   VAR_TEMP 
+      n : Int;
+   END_VAR
+
+   VAR CONSTANT 
+      N_Array : Int := 15;
+   END_VAR
+
+
+BEGIN
+	IF #Lunghezza_Pw > 16 THEN
+	    #Lunghezza_Pw := 16;
+	    #Scritte_Errori := 'Valore massimo inseribile: 16';
+	    #vis_Scritte_Errori := true;
+	END_IF;
+	
+	REGION monitoro le richieste abilitazioni e attivo i vari settaggi
+	    #R1(CLK:=#Richiesta_Lv_1);
+	    #R2(CLK:=#Richiesta_Lv_2);
+	    #R3(CLK:=#Richiesta_Lv_3);
+	    
+	    IF #R1.Q THEN
+	        #Visibilità := true;
+	        #Richiesta_Lv1 := true;
+	    END_IF;
+	    
+	    IF #R2.Q THEN
+	        #Visibilità := true;
+	        #Richiesta_Lv2 := true;
+	    END_IF;
+	    
+	    IF #R3.Q THEN
+	        #Visibilità := true;
+	        #Richiesta_Lv3 := true;
+	    END_IF;
+	END_REGION
+	
+	REGION Gestione attivazione Visibilità
+	    #R4(CLK := #Visibilità);
+	    IF #R4.Q THEN
+	        #Variabili_Scritte_Change := 'inserisci password';
+	        #visibilità_Numeri := 1;
+	        #Conteggio := 0;
+	    END_IF;
+	END_REGION;
+	
+	IF #Visibilità = TRUE THEN  //verifico se la visibilità è attiva
+	    REGION gestione linee e numeri/asterischi
+	        IF "Clock_1.25Hz" = true THEN
+	            #Array_Linee[#Conteggio] := true;
+	        ELSE
+	            FOR #n := 0 TO #N_Array DO
+	                #Array_Linee[#n] := FALSE;
+	            END_FOR;
+	        END_IF;
+	        
+	        #R5(CLK:="Clock_10Hz");
+	        IF #R5.Q THEN
+	            FOR #n := 0 TO #N_Array DO
+	                #Array_Linee[#n] := FALSE;
+	            END_FOR;
+	        END_IF;
+	        
+	        IF #Array_Memoria[13] = true THEN
+	            #visibilità_Numeri := 2;
+	        END_IF;
+	        
+	        #R_13(CLK:=#Array_Memoria[13]);
+	        
+	        IF #R_13.Q THEN
+	            IF "IEC_Timer_0_DB_1".Q = true THEN
+	                #visibilità_Numeri := 2;
+	            ELSE
+	                #visibilità_Numeri := 1;
+	            END_IF;
+	        END_IF;
+	        "IEC_Timer_0_DB_1".TON(IN := #Array_Memoria[13],
+	                               PT := T#1s,
+	                               ET => #ET);
+	        
+	        CASE #visibilità_Numeri OF
+	            1:
+	                #"Visibilità_Numeri_°" := 0;
+	                #"Visibilità_Numeri_*" := #Lunghezza_Pw;
+	            2:
+	                #"Visibilità_Numeri_°" := #Lunghezza_Pw;
+	                #"Visibilità_Numeri_*" := 0;
+	        END_CASE;
+	    END_REGION
+	    
+	    REGION rilevamento e gestione pulsanti 
+	        REGION rilevamento e funzionalita pulsante esc
+	            // pressione pulsante "ESC"
+	            #R_11(CLK:=#Array_Memoria[11]);
+	            
+	            IF #R_11.Q THEN
+	                FOR #n := 0 TO #N_Array DO
+	                    #Array_Input[#n] := 0;
+	                END_FOR;
+	                FOR #n := 0 TO #N_Array DO
+	                    #Array_Linee[#n] := FALSE;
+	                END_FOR;
+	                #Conteggio := 0;
+	                #Visibilità := FALSE;
+	                #Richiesta_Lv1 := false;
+	                #Richiesta_Lv2 := false;
+	                #Richiesta_Lv3 := false;
+	                #"Visibilità_Numeri_°" := 0;
+	                #"Visibilità_Numeri_*" := 0;
+	                #Change_Status := 0;
+	            END_IF;
+	        END_REGION
+	        
+	        REGION rilevamento e funzionalità pulsante canc
+	            // pressione pulsante "CANC"
+	            #R_12(CLK:=#Array_Memoria[12]);
+	            IF #R_12.Q THEN
+	                FOR #n := 0 TO #N_Array DO
+	                    #Array_Input[#n] := 0;
+	                END_FOR;
+	                #Conteggio := 0;
+	            END_IF;
+	        END_REGION
+	        
+	        REGION rilevamento e funzionalità pulsante indietro
+	            // pressione pulsante indietro
+	            #R_14(CLK:=#Array_Memoria[14]);
+	            IF #R_14.Q THEN
+	                IF #Conteggio > 0 THEN
+	                    #Conteggio := #Conteggio - 1;
+	                    #Array_Input[#Conteggio] := 0;
+	                END_IF;
+	            END_IF;
+	        END_REGION
+	       
+	    END_REGION
+	    
+	    REGION rilevazione pressione pulsanti fintanto che il numero di caratteri inseriti non superi la lunghezza_pw
+	        
+	        IF #Conteggio < #Lunghezza_Pw THEN  //verifico se le volte in cui i numeri sono stati premuti è minore di #lunghezza_pw
+	            
+	            //vado a registrare gli input dei pulsanti numerici
+	            #R_0();
+	            #R_1();
+	            #R_2();
+	            #R_3();
+	            #R_4();
+	            #R_5();
+	            #R_6();
+	            #R_7();
+	            #R_8();
+	            #R_9();
+	            
+	            IF #R_0.Q THEN
+	                #Array_Linee[#Numero] := FALSE;
+	                #Array_Input[#Conteggio] := 0;
+	                #Conteggio := #Conteggio + 1;
+	            END_IF;
+	            
+	            IF #R_1.Q THEN
+	                #Array_Linee[#Numero] := FALSE;
+	                #Array_Input[#Conteggio] := 1;
+	                #Conteggio := #Conteggio + 1;
+	            END_IF;
+	            
+	            IF #R_2.Q  THEN
+	                #Array_Linee[#Numero] := FALSE;
+	                #Array_Input[#Conteggio] := 2;
+	                #Conteggio := #Conteggio + 1;
+	            END_IF;
+	    
+	            IF #R_3.Q THEN
+	                #Array_Linee[#Numero] := FALSE;
+	                #Array_Input[#Conteggio] := 3;
+	                #Conteggio := #Conteggio + 1;
+	            END_IF;
+	            
+	            IF #R_4.Q THEN
+	                #Array_Linee[#Numero] := FALSE;
+	                #Array_Input[#Conteggio] := 4;
+	                #Conteggio := #Conteggio + 1;
+	            END_IF;
+	            
+	            IF #R_5.Q THEN
+	                #Array_Linee[#Numero] := FALSE;
+	                #Array_Input[#Conteggio] := 5;
+	                #Conteggio := #Conteggio + 1;
+	            END_IF;
+	            
+	            IF #R_6.Q THEN
+	                #Array_Linee[#Numero] := FALSE;
+	                #Array_Input[#Conteggio] := 6;
+	                #Conteggio := #Conteggio + 1;
+	            END_IF;
+	            
+	            IF R_ THEN
+	                #Array_Linee[#Numero] := FALSE;
+	                #Array_Input[#Conteggio] := 7;
+	                #Conteggio := #Conteggio + 1;
+	            END_IF;
+	            
+	            IF  THEN
+	                #Array_Linee[#Numero] := FALSE;
+	                #Array_Input[#Conteggio] := 8;
+	                #Conteggio := #Conteggio + 1;
+	            END_IF;
+	            
+	            IF  THEN
+	                #Array_Linee[#Numero] := FALSE;
+	                #Array_Input[#Conteggio] := 9;
+	                #Conteggio := #Conteggio + 1;
+	            END_IF;
+	
+	        END_IF;
+	    END_REGION
+	    
+	    REGION Change_Status=0
+	        IF #Change_Status = 0 THEN
+	            
+	            REGION Restituzione risultato in base alla MODalità di funzionamento selezionata
+	                
+	                IF (#Array_Memoria[10] = true) & (#Array_Fronti[10] = false) THEN
+	                    
+	                    CASE #Selezione_Modalità OF
+	                        0:
+	                            FOR #n := 0 TO (#Lunghezza_Pw - 1) DO
+	                                IF #Array_Input[#n] <> #password_1[#n] THEN
+	                                    #n_div[0] := #n_div[0] + 1;
+	                                END_IF;
+	                            END_FOR;
+	                            FOR #n := 0 TO (#Lunghezza_Pw - 1) DO
+	                                IF #Array_Input[#n] <> #password_2[#n] THEN
+	                                    #n_div[1] := #n_div[1] + 1;
+	                                END_IF;
+	                            END_FOR;
+	                            FOR #n := 0 TO (#Lunghezza_Pw - 1) DO
+	                                IF #Array_Input[#n] <> #password_3[#n] THEN
+	                                    #n_div[2] := #n_div[2] + 1;
+	                                END_IF;
+	                            END_FOR;
+	                            IF #n_div[0] = 0 THEN
+	                                #Livello_1 := true;
+	                                #Livello_2 := true;
+	                                #Livello_3 := true;
+	                                #Variabili_Scritte_Change := 'Password corretta';
+	                            ELSE
+	                                IF #n_div[1] = 0 THEN
+	                                    #Livello_2 := true;
+	                                    #Livello_3 := true;
+	                                    #Variabili_Scritte_Change := 'Password corretta';
+	                                ELSE
+	                                    IF #n_div[2] = 0 THEN
+	                                        #Livello_3 := true;
+	                                        #Variabili_Scritte_Change := 'Password corretta';
+	                                    ELSE
+	                                        #Variabili_Scritte_Change := 'Password sbagliata';
+	                                    END_IF;
+	                                END_IF;
+	                            END_IF;
+	                            
+	                                1:
+	                                IF #Richiesta_Lv1 = true THEN
+	                                    FOR #n := 0 TO (#Lunghezza_Pw - 1) DO
+	                                        IF #Array_Input[#n] <> #password_1[#n] THEN
+	                                            #n_div[3] := #n_div[3] + 1;
+	                                        END_IF;
+	                                    END_FOR;
+	                                    IF #n_div[3] = 0 THEN
+	                                        #Variabili_Scritte_Change := 'Password corretta';
+	                                        #Livello_1 := true;
+	                                    ELSE
+	                                        #Variabili_Scritte_Change := 'Password sbagliata';
+	                                    END_IF;
+	                                END_IF;
+	                                
+	                                IF #Richiesta_Lv2 = true THEN
+	                                    FOR #n := 0 TO (#Lunghezza_Pw - 1) DO
+	                                        IF #Array_Input[#n] <> #password_2[#n] THEN
+	                                            #n_div[4] := #n_div[4] + 1;
+	                                        END_IF;
+	                                    END_FOR;
+	                                    IF #n_div[4] = 0 THEN
+	                                        #Variabili_Scritte_Change := 'Password corretta';
+	                                        #Livello_2 := true;
+	                                    ELSE
+	                                        #Variabili_Scritte_Change := 'Password sbagliata';
+	                                    END_IF;
+	                                END_IF;
+	                                
+	                                IF #Richiesta_Lv3 = true THEN
+	                                    FOR #n := 0 TO (#Lunghezza_Pw - 1) DO
+	                                        IF #Array_Input[#n] <> #password_3[#n] THEN
+	                                            #n_div[5] := #n_div[5] + 1;
+	                                        END_IF;
+	                                    END_FOR;
+	                                    IF #n_div[5] = 0 THEN
+	                                        #Variabili_Scritte_Change := 'Password corretta';
+	                                        #Livello_3 := true;
+	                                    ELSE
+	                                        #Variabili_Scritte_Change := 'Password sbagliata';
+	                                    END_IF;
+	                                END_IF;
+	                                2:
+	                                
+	                                FOR #n := 0 TO (#Lunghezza_Pw - 1) DO
+	                                    IF #Array_Input[#n] <> #password_1[#n] THEN
+	                                        #n_div[6] := #n_div[6] + 1;
+	                                    END_IF;
+	                                END_FOR;
+	                                IF #n_div[6] = 0 THEN
+	                                    #Variabili_Scritte_Change := 'Password corretta';
+	                                    #Livello_1 := true;
+	                                    #Livello_2 := true;
+	                                    #Livello_3 := true;
+	                                ELSE
+	                                    #Variabili_Scritte_Change := 'Password sbagliata';
+	                                END_IF;
+	                    END_CASE;
+	                END_IF;
+	                #Array_Fronti[10] := #Array_Memoria[10];
+	                #Array_Memoria[10] := false;
+	                FOR #n := 0 TO 6 DO
+	                    #n_div[#n] := 0;
+	                END_FOR;
+	                
+	            END_REGION
+	            
+	        END_IF;
+	        
+	    END_REGION
+	    
+	    REGION gestione modalità cambio password
+	        
+	        REGION Pressione pulsante change password ed entrata nella modalità sovrascrittura
+	            IF (#Array_Memoria[15] = true) & (#Array_Fronti[15] = false) THEN
+	                #Variabili_Scritte_Change := 'Seleziona password';
+	                FOR #n := 0 TO #N_Array DO
+	                    #Array_Input[#n] := 0;
+	                END_FOR;
+	                #Conteggio := 0;
+	                #Change_Status := 1;
+	            END_IF;
+	            #Array_Fronti[15] := #Array_Memoria[15];
+	        END_REGION
+	        
+	        REGION Change_Status=1
+	            
+	            IF #Change_Status = 1 THEN
+	                IF (#Array_Memoria[1] = true) & (#Array_Fronti_Change[1] = false) THEN
+	                    FOR #n := 0 TO #N_Array DO
+	                        #Array_Input[#n] := 0;
+	                    END_FOR;
+	                    #Conteggio := 0;
+	                    #Variabili_Scritte_Change := 'password precedente';
+	                    #Change_Status := 2;
+	                    #"Password_Selected_ Change" := 1;
+	                END_IF;
+	                #Array_Fronti_Change[1] := #Array_Memoria[1];
+	                
+	                IF (#Array_Memoria[2] = true) & (#Array_Fronti_Change[2] = false) THEN
+	                    FOR #n := 0 TO #N_Array DO
+	                        #Array_Input[#n] := 0;
+	                    END_FOR;
+	                    #Conteggio := 0;
+	                    #Variabili_Scritte_Change := 'password precedente'; // 
+	                    #Change_Status := 2;
+	                    #"Password_Selected_ Change" := 2;
+	                END_IF;
+	                #Array_Fronti_Change[2] := #Array_Memoria[2];
+	                
+	                
+	                IF (#Array_Memoria[3] = true) & (#Array_Fronti_Change[3] = false) THEN
+	                    FOR #n := 0 TO #N_Array DO
+	                        #Array_Input[#n] := 0;
+	                    END_FOR;
+	                    #Conteggio := 0;
+	                    #Variabili_Scritte_Change := 'password precedente';
+	                    #Change_Status := 2;
+	                    #"Password_Selected_ Change" := 3;
+	                END_IF;
+	                #Array_Fronti_Change[3] := #Array_Memoria[3];
+	            END_IF;
+	            
+	        END_REGION
+	        
+	        
+	        REGION Change_Status=2
+	            IF #Change_Status = 2 THEN
+	                IF #Array_Memoria[10] = true & #Array_Fronti_Change[10] = FALSE THEN
+	                    CASE #"Password_Selected_ Change" OF
+	                        1:
+	                            FOR #n := 0 TO (#Lunghezza_Pw - 1) DO
+	                                IF #Array_Input[#n] <> #password_1[#n] THEN
+	                                    #n_div[7] := #n_div[7] + 1;
+	                                END_IF;
+	                            END_FOR;
+	                            IF #n_div[7] = 0  THEN
+	                                #Change_Status := 3;
+	                                FOR #n := 0 TO #N_Array DO
+	                                    #Array_Input[#n] := 0;
+	                                END_FOR;
+	                                #Conteggio := 0;
+	                                #Variabili_Scritte_Change := 'Nuova password';
+	                                GOTO end;
+	                            ELSE
+	                                #Variabili_Scritte_Change := 'Password errata';
+	                            END_IF;
+	                            
+	                        2:
+	                            FOR #n := 0 TO (#Lunghezza_Pw - 1) DO
+	                                IF #Array_Input[#n] <> #password_2[#n] THEN
+	                                    #n_div[8] := #n_div[8] + 1;
+	                                END_IF;
+	                            END_FOR;
+	                            IF #n_div[8] = 0 THEN
+	                                #Change_Status := 3;
+	                                FOR #n := 0 TO #N_Array DO
+	                                    #Array_Input[#n] := 0;
+	                                END_FOR;
+	                                #Conteggio := 0;
+	                                #Variabili_Scritte_Change := 'Nuova password';
+	                                GOTO end;
+	                            ELSE
+	                                #Variabili_Scritte_Change := 'Password errata';
+	                            END_IF;
+	                        3:
+	                            FOR #n := 0 TO (#Lunghezza_Pw - 1) DO
+	                                IF #Array_Input[#n] <> #password_3[#n] THEN
+	                                    #n_div[9] := #n_div[9] + 1;
+	                                END_IF;
+	                            END_FOR;
+	                            IF #n_div[9] = 0 THEN
+	                                #Change_Status := 3;
+	                                FOR #n := 0 TO #N_Array DO
+	                                    #Array_Input[#n] := 0;
+	                                END_FOR;
+	                                #Conteggio := 0;
+	                                #Variabili_Scritte_Change := 'Nuova password';
+	                                GOTO end;
+	                            ELSE
+	                                #Variabili_Scritte_Change := 'Password errata';
+	                            END_IF;
+	                    END_CASE;
+	                END_IF;
+	                #Array_Fronti_Change[10] := #Array_Memoria[10];
+	            END_IF;
+	            
+	            
+	        END_REGION
+	        
+	        
+	        REGION Change_Status=3
+	            IF #Change_Status = 3 THEN
+	                IF #Array_Memoria[10] = true & #Array_Fronti_Change[11] = FALSE THEN
+	                    #appoggio_fronte_10 := true;
+	                    #Variabili_Scritte_Change := 'Password modificata';
+	                END_IF;
+	                "IEC_Timer_0_DB".TON(IN := #appoggio_fronte_10,
+	                                     PT := T#1s,
+	                                     ET => #ET_1);
+	                IF "IEC_Timer_0_DB".Q = true THEN
+	                    #appoggio_fronte_10 := false;
+	                    CASE #"Password_Selected_ Change" OF
+	                        1:
+	                            #"password_1" := #Array_Input;
+	                            GOTO esc;
+	                        2:
+	                            #"password_2" := #Array_Input;
+	                            GOTO esc;
+	                        3:
+	                            #"password_3" := #Array_Input;
+	                            GOTO esc;
+	                    END_CASE;
+	                esc:
+	                    FOR #n := 0 TO #N_Array DO
+	                        #Array_Input[#n] := 0;
+	                    END_FOR;
+	                    FOR #n := 0 TO #N_Array DO
+	                        #Array_Linee[#n] := FALSE;
+	                    END_FOR;
+	                    #Conteggio := 0;
+	                    #Visibilità := FALSE;
+	                    #Richiesta_Lv1 := false;
+	                    #Richiesta_Lv2 := false;
+	                    #Richiesta_Lv3 := false;
+	                    #"Visibilità_Numeri_°" := 0;
+	                    #"Visibilità_Numeri_*" := 0;
+	                    #Change_Status := 0;
+	                END_IF;
+	                #Array_Fronti_Change[11] := #Array_Memoria[10];
+	                #Array_Memoria[10] := false;
+	            END_IF;
+	            
+	            
+	        END_REGION
+	        
+	    end:
+	        #Array_Memoria[10] := false;
+	        FOR #n := 7 TO 9 DO
+	            #n_div[#n] := 0;
+	        END_FOR;
+	    END_REGION
+	    
+	   
+	END_IF;
+	
+	REGION rilevamento e funzionalità pulsante disattiva abilitazioni
+	    // va fuori dal controllo visibilità altrimenti non funziona
+	    IF #Disattiva_Abilitazioni = true & #Fronte_Disabilità = false THEN
+	        #Livello_1 := false;
+	        #Livello_2 := false;
+	        #Livello_3 := false;
+	    END_IF;
+	    #Fronte_Disabilità := #Disattiva_Abilitazioni;
+	END_REGION
+END_FUNCTION_BLOCK
+

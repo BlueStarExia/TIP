@@ -1,0 +1,10 @@
+﻿DATA_BLOCK "Logica_TIP_DB"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+NON_RETAIN
+"Logica_TIP"
+
+BEGIN
+
+END_DATA_BLOCK
+

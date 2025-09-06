@@ -115,22 +115,22 @@
       </Symbol>
     </Access>
     <Call UId="33">
-      <CallInfo Name="Logica_PW" BlockType="FB">
+      <CallInfo Name="Logica_TIP" BlockType="FB">
         <Instance Scope="GlobalVariable" UId="34">
-          <Component Name="Logica_PW_DB" />
+          <Component Name="Logica_TIP_DB" />
         </Instance>
         <Parameter Name="Selezione_Modalità" Section="Input" Type="Int" />
         <Parameter Name="Richiesta_Lv_1" Section="Input" Type="Bool" />
         <Parameter Name="Richiesta_Lv_2" Section="Input" Type="Bool" />
         <Parameter Name="Richiesta_Lv_3" Section="Input" Type="Bool" />
         <Parameter Name="Disattiva_Abilitazioni" Section="Input" Type="Bool" />
-        <Parameter Name="Lunghezza_Pw" Section="Input" Type="Int" />
         <Parameter Name="Livello_1" Section="Output" Type="Bool" />
         <Parameter Name="Livello_2" Section="Output" Type="Bool" />
         <Parameter Name="Livello_3" Section="Output" Type="Bool" />
         <Parameter Name="password_1" Section="InOut" Type="Array[0..#N_Array] of UInt" />
         <Parameter Name="password_2" Section="InOut" Type="Array[0..#N_Array] of UInt" />
         <Parameter Name="password_3" Section="InOut" Type="Array[0..#N_Array] of UInt" />
+        <Parameter Name="Lunghezza_Pw" Section="InOut" Type="Int" />
       </CallInfo>
     </Call>
   </Parts>
@@ -214,9 +214,37 @@
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <MultilingualText ID="8" CompositionName="Title">
+      <SW.Blocks.CompileUnit ID="8" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource />
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
         <ObjectList>
-          <MultilingualTextItem ID="9" CompositionName="Items">
+          <MultilingualText ID="9" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="A" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="B" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="C" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <MultilingualText ID="D" CompositionName="Title">
+        <ObjectList>
+          <MultilingualTextItem ID="E" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
               <Text>"Main Program Sweep (Cycle)"</Text>
