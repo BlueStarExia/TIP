@@ -3,19 +3,18 @@
 VERSION : 0.1
 NON_RETAIN
    VAR 
-      Richiesta_Lv1 : Bool;
-      RIchiesta_Lv2 : Bool;
-      Richiesta_Lv3 : Bool;
       Convalida_Lv1 : Bool;
       Convalida_Lv2 : Bool;
       Convalida_Lv3 : Bool;
       Disattiva : Bool;
-      Fronte_Disattiva : Bool;
       Selezione_modalita : Int;
-      Password_1 : Array[0..11] of UInt;
-      Password_2 : Array[0..11] of UInt;
-      Password_3 : Array[0..11] of UInt;
+      Password_1 : Array[0..15] of UInt;
+      Password_2 : Array[0..15] of UInt;
+      Password_3 : Array[0..15] of UInt;
       Lunghezza_Pw : Int;
+      richiesta_lv1 : Bool;
+      richiesta_lv2 : Bool;
+      richiesta_lv3 : Bool;
    END_VAR
 
 

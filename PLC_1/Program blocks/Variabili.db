@@ -3,34 +3,17 @@
 VERSION : 0.1
 NON_RETAIN
    VAR 
-      Array_Input : Array[0..11] of UInt;
-      Array_Linee : Array[0..12] of Bool;
+      Array_Input : Array[0..3] of UInt;
       Conteggio : UInt;
       Risultato : UInt;
-      Array_Memoria : Array[0..14] of Bool;
-      Array_Fronti : Array[0..14] of Bool;
+      Array_Memoria : Array[0..11] of Bool;
+      Array_Fronti : Array[0..11] of Bool;
       Visibilità : Bool;
       Numero : UInt;
-      visibilità_Numeri : UInt;
-      "Visibilità_Numeri_*" : UInt;
-      "Visibilità_Numeri_°" : UInt;
-      Fronte_Visibilità : Bool;
       Fronte_Richiesta_1 : Bool;
-      Fronte_Richiesta_2 : Bool;
-      Fronte_Richiesta_3 : Bool;
-      Attiva_Change : Bool;
-      Stato_Cambio_Pw : UInt;
       Livello_1 : Bool;
-      Livello_2 : Bool;
-      Livello_3 : Bool;
       Richiesta_Lv1 : Bool;
-      Richiesta_Lv2 : Bool;
-      Richiesta_Lv3 : Bool;
       Fronte_Disabilità : Bool;
-      n : Int;
-      Q : Bool;
-      ET : Time;
-      Fronte_Clock : Bool;
    END_VAR
 
 
