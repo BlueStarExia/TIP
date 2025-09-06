@@ -54,7 +54,7 @@ VERSION : 0.1
       R3 {InstructionName := 'R_TRIG'; LibVersion := '1.0'} : R_TRIG;
       R4 {InstructionName := 'R_TRIG'; LibVersion := '1.0'} : R_TRIG;
       R5 {InstructionName := 'R_TRIG'; LibVersion := '1.0'} : R_TRIG;
-      R_13 {InstructionName := 'R_TRIG'; LibVersion := '1.0'} : R_TRIG;
+      F_13 {InstructionName := 'F_TRIG'; LibVersion := '1.0'} : F_TRIG;
       R_11 {InstructionName := 'R_TRIG'; LibVersion := '1.0'} : R_TRIG;
       R_12 {InstructionName := 'R_TRIG'; LibVersion := '1.0'} : R_TRIG;
       R_14 {InstructionName := 'R_TRIG'; LibVersion := '1.0'} : R_TRIG;
@@ -133,19 +133,21 @@ BEGIN
 	            END_FOR;
 	        END_IF;
 	        
+	        #F_13(CLK:=#Array_Memoria[13]);
+	        
 	        IF #Array_Memoria[13] = true THEN
 	            #visibilità_Numeri := 2;
 	        END_IF;
 	        
-	        #R_13(CLK:=#Array_Memoria[13]);
-	        
-	        IF #R_13.Q THEN
+	        IF #F_13.Q THEN
 	            IF "IEC_Timer_0_DB_1".Q = true THEN
 	                #visibilità_Numeri := 2;
 	            ELSE
 	                #visibilità_Numeri := 1;
 	            END_IF;
 	        END_IF;
+	    
+	        
 	        "IEC_Timer_0_DB_1".TON(IN := #Array_Memoria[13],
 	                               PT := T#1s,
 	                               ET => #ET);
@@ -157,6 +159,7 @@ BEGIN
 	            2:
 	                #"Visibilità_Numeri_°" := #Lunghezza_Pw;
 	                #"Visibilità_Numeri_*" := 0;
+	          
 	        END_CASE;
 	    END_REGION
 	    
